@@ -24,8 +24,8 @@ enum Estado
 //////////////////////////////////////////////////////////////////////
 // variáveis:
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-unsigned int variavel = 16;
 
+unsigned long timer_rele = 0;
 int hr_now = 6;
 int min_now = 6;
 int hr_alimentacao = 17;
@@ -33,10 +33,10 @@ int min_alimentacao = 40;
 int counter_alimentacao = 0;
 
 //parâmetros:
-int hr_inicio = 8;
+int hr_inicio = 18;
 int hr_fim = 20;
-int intervalo = 5; // minutos
-int duracao = 10;    // segundos
+int intervalo = 1; // minutos
+int duracao = 10;  // segundos
 
 //////////////////////////////////////////////////////////////////////
 // Objetos:
@@ -59,7 +59,7 @@ void threads_setup()
 {
     T_debug.onRun(F_debug);
     T_debug.setInterval(1000);
-    T_debug.enabled = false;
+    // T_debug.enabled = false;
 
     T_rtc.onRun(F_rtc);
     T_rtc.setInterval(50);
@@ -72,7 +72,10 @@ void F_debug()
     Serial.print(hr_now);
     Serial.print(" min: ");
     Serial.print(min_now);
-
+    Serial.print(" hr_alime: ");
+    Serial.print(hr_alimentacao);
+    Serial.print(" min_alime: ");
+    Serial.print(min_alimentacao);
     Serial.println();
 }
 

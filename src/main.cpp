@@ -14,7 +14,6 @@ void setup()
   }
 
   checkRTC();
-
   calculaAlimentacao();
 
   pin_mode();
@@ -39,26 +38,30 @@ void loop()
   {
     if (hr_now >= hr_inicio && hr_now <= hr_fim)
     {
-      if(hr_now == hr_alimentacao && min_now == min_alimentacao)
+      if (hr_now == hr_alimentacao && min_now == min_alimentacao)
       {
-        // digitalWrite(PIN_RELE, HIGH);
-        // timer_rele = millis();
+        Serial.println("hr da boia");
+        digitalWrite(PIN_RELE, HIGH);
+        timer_rele = millis();
         estado = ATIVO;
       }
     }
     else
     {
       counter_alimentacao = 0;
+      calculaAlimentacao();
     }
-
     break;
   }
   case ATIVO:
   {
-    // if(millis())
-    Serial.println("alimentou");
-    counter_alimentacao++; // quando terminar alimentacao
-    calculaAlimentacao();
+    if (millis() - timer_rele >= (duracao * 1000))
+    {
+      digitalWrite(PIN_RELE, LOW);
+      Serial.println("alimentou");
+      counter_alimentacao++; // quando terminar alimentacao
+      calculaAlimentacao();
+    }
     break;
   }
   }
