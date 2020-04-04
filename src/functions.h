@@ -17,9 +17,8 @@
 // enums e structs:
 enum Estado
 {
-    SLEEP, // estado SLEEP: Não está no horario de alimentação (entre 'hr_inicio' e 'hr_fim')
-    ATIVO, // estado ATVIO: Está no horario de alimentação (entre 'hr_inicio' e 'hr_fim')
-    CICLO, // estado CICLO: realizando alimentação, ou seja, acionando o relé pelo tempo determinado pelo parâmetro 'duracao'
+    SLEEP, // estado SLEEP: Não está no horario de alimentação (entre 'hr_inicio' e 'hr_fim', e no intervalo certo)
+    ATIVO, // estado ATVIO: realizando alimentação, ou seja, acionando o relé pelo tempo determinado pelo parâmetro 'duracao'
 } estado;
 
 //////////////////////////////////////////////////////////////////////
@@ -29,11 +28,14 @@ unsigned int variavel = 16;
 
 int hr_now = 6;
 int min_now = 6;
+int hr_alimentacao = 17;
+int min_alimentacao = 40;
+int counter_alimentacao = 0;
 
 //parâmetros:
 int hr_inicio = 8;
-int hr_fim = 8;
-int intervalo = 120; // minutos
+int hr_fim = 20;
+int intervalo = 5; // minutos
 int duracao = 10;    // segundos
 
 //////////////////////////////////////////////////////////////////////
@@ -56,19 +58,12 @@ void F_rtc();
 void threads_setup()
 {
     T_debug.onRun(F_debug);
-    T_debug.setInterval(200);
-    // T_debug.enabled = false;
+    T_debug.setInterval(1000);
+    T_debug.enabled = false;
 
     T_rtc.onRun(F_rtc);
     T_rtc.setInterval(50);
     // T_rtc.enabled = false;
-}
-
-void F_rtc()
-{
-    DateTime now = rtc.now();
-    hr_now = now.hour();
-    min_now = now.minute();
 }
 
 void F_debug()
@@ -79,6 +74,31 @@ void F_debug()
     Serial.print(min_now);
 
     Serial.println();
+}
+
+void F_rtc()
+{
+    DateTime now = rtc.now();
+    hr_now = now.hour();
+    min_now = now.minute();
+}
+
+// Calcula em qual hora e em qual minuto ocorrerá a próxima alimentacao
+void calculaAlimentacao()
+{
+    int hr_intervalo = counter_alimentacao * intervalo / 60;
+    int min_intervalo = counter_alimentacao * intervalo % 60;
+    hr_alimentacao = hr_inicio + hr_intervalo;
+    min_alimentacao = min_intervalo;
+    // Serial.print(" hr_int: ");
+    // Serial.print(hr_intervalo);
+    // Serial.print(" min_int: ");
+    // Serial.print(min_intervalo);
+    // Serial.print(" hr_alime: ");
+    // Serial.print(hr_alimentacao);
+    // Serial.print(" min_alime: ");
+    // Serial.print(min_alimentacao);
+    // Serial.println();
 }
 
 void pin_mode()

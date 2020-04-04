@@ -15,6 +15,8 @@ void setup()
 
   checkRTC();
 
+  calculaAlimentacao();
+
   pin_mode();
 
   threads_setup();
@@ -33,18 +35,30 @@ void loop()
 
   switch (estado)
   {
-  case SLEEP: 
+  case SLEEP:
   {
+    if (hr_now >= hr_inicio && hr_now <= hr_fim)
+    {
+      if(hr_now == hr_alimentacao && min_now == min_alimentacao)
+      {
+        // digitalWrite(PIN_RELE, HIGH);
+        // timer_rele = millis();
+        estado = ATIVO;
+      }
+    }
+    else
+    {
+      counter_alimentacao = 0;
+    }
 
     break;
   }
-  case ATIVO: 
+  case ATIVO:
   {
-    break;
-  }
-  case CICLO: 
-  {
-    //code
+    // if(millis())
+    Serial.println("alimentou");
+    counter_alimentacao++; // quando terminar alimentacao
+    calculaAlimentacao();
     break;
   }
   }
