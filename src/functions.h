@@ -2,52 +2,35 @@
 
 #include <personalHeader.h>
 #include <Thread.h>
+#include <RTClib.h>
 
 //////////////////////////////////////////////////////////////////
-// Hardware:
-#define PIN_INTERRUPT0 2
-#define PIN_INTERRUPT1_PWM2 3
-#define PIN_4 4
-#define PIN_5_PWM0 5
-#define PIN_6_PWM0 6
-#define PIN_7 7
-#define PIN_8 8
-#define PIN_PWM1 9
-#define PIN_SS_PWM1 10
-#define PIN_MOSI_PWM2 11
-#define PIN_MISO 12
-#define PIN_SCK 13
-#define PIN_ANALOG0 A0
-#define PIN_ANALOG1 A1
-#define PIN_ANALOG2 A2
-#define PIN_ANALOG3 A3
-#define PIN_SDA A4
-#define PIN_SCL A5
+// defines:
 
 //inputs:
+#define PIN_BOTOES A0
 
 //outputs:
-
+#define PIN_RELE 11
 
 //////////////////////////////////////////////////////////////////////
 // enums e structs:
 enum Estado
 {
-  PRONTO,
-  CICLO,
-  EMERGENCIA,
+    PRONTO,
+    CICLO,
+    EMERGENCIA,
 } estado;
 
 //////////////////////////////////////////////////////////////////////
 // variáveis:
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 unsigned int variavel = 16;
-
-
 
 //////////////////////////////////////////////////////////////////////
 // Objetos:
 Thread T_debug = Thread();
-
+RTC_DS3231 rtc;
 
 //////////////////////////////////////////////////////////////////////
 // prototypes:
@@ -66,7 +49,63 @@ void threads_setup()
     T_debug.enabled = false;
 }
 
+void checkRTC()
+{
 
+    // If you need to set the time of the uncomment line 34 or 37
+    // following line sets the RTC to the date & time this sketch was compiled
+    // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+
+    DateTime now = rtc.now();
+
+    Serial.print(now.year(), DEC);
+    Serial.print('/');
+    Serial.print(now.month(), DEC);
+    Serial.print('/');
+    Serial.print(now.day(), DEC);
+    Serial.print(" (");
+    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
+    Serial.print(") ");
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    Serial.println();
+
+    // Serial.print(" since midnight 1/1/1970 = ");
+    // Serial.print(now.unixtime());
+    // Serial.print("s = ");
+    // Serial.print(now.unixtime() / 86400L);
+    // Serial.println("d");
+
+    // // calculate a date which is 7 days and 30 seconds into the future
+    // DateTime future (now + TimeSpan(7,12,30,6));
+
+    // Serial.print(" now + 7d + 30s: ");
+    // Serial.print(future.year(), DEC);
+    // Serial.print('/');
+    // Serial.print(future.month(), DEC);
+    // Serial.print('/');
+    // Serial.print(future.day(), DEC);
+    // Serial.print(' ');
+    // Serial.print(future.hour(), DEC);
+    // Serial.print(':');
+    // Serial.print(future.minute(), DEC);
+    // Serial.print(':');
+    // Serial.print(future.second(), DEC);
+    // Serial.println();
+
+    Serial.print("Temperature: ");
+    Serial.print(rtc.getTemperature());
+    Serial.println(" C");
+
+    Serial.println();
+    delay(500);
+}
 void F_debug()
 {
     Serial.print(" variavel: ");
@@ -77,6 +116,6 @@ void F_debug()
 
 void pin_mode()
 {
-    pinMode(PIN_5_PWM0, OUTPUT);
-    digitalWrite(PIN_5_PWM0, LOW); //
+    pinMode(PIN_RELE, OUTPUT);
+    digitalWrite(PIN_RELE, LOW); //
 }
