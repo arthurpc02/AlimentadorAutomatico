@@ -6,11 +6,13 @@ void setup()
   Serial.begin(115200);
   Serial.println("328p ready.");
 
-  if (! rtc.begin()) {
+  if (!rtc.begin())
+  {
     Serial.println(F("Couldn't find RTC"));
-    while (1);
+    while (1)
+      ;
   }
-  
+
   checkRTC();
 
   pin_mode();
@@ -26,22 +28,18 @@ void loop()
   if (T_debug.shouldRun())
     T_debug.run();
 
-
-
   switch (estado)
   {
+  case SLEEP: 
+  {
 
-  case PRONTO:
-  {
-    //code
     break;
   }
-  case CICLO:
+  case ATIVO: 
   {
-    //code
     break;
   }
-  case EMERGENCIA:
+  case CICLO: 
   {
     //code
     break;

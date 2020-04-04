@@ -17,15 +17,22 @@
 // enums e structs:
 enum Estado
 {
-    PRONTO,
-    CICLO,
-    EMERGENCIA,
+    SLEEP, // estado SLEEP: Não está no horario de alimentação (entre 'hr_inicio' e 'hr_fim')
+    ATIVO, // estado ATVIO: Está no horario de alimentação (entre 'hr_inicio' e 'hr_fim')
+    CICLO, // estado CICLO: realizando alimentação, ou seja, acionando o relé pelo tempo determinado pelo parâmetro 'duracao'
 } estado;
 
 //////////////////////////////////////////////////////////////////////
 // variáveis:
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 unsigned int variavel = 16;
+
+//parâmetros:
+int hr_inicio = 8;
+int hr_fim = 8;
+int intervalo = 120; // minutos
+int duracao = 10; // segundos
+
 
 //////////////////////////////////////////////////////////////////////
 // Objetos:
