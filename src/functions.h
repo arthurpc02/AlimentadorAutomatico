@@ -33,9 +33,9 @@ int min_alimentacao = 40;
 int counter_alimentacao = 0;
 
 //parâmetros:
-int hr_inicio = 18;
-int hr_fim = 20;
-int intervalo = 1; // minutos
+int hr_inicio = 17;
+int hr_fim = 18;
+int intervalo = 20; // minutos
 int duracao = 10;  // segundos
 
 //////////////////////////////////////////////////////////////////////
@@ -49,6 +49,7 @@ RTC_DS3231 rtc;
 void pin_mode();
 void threads_controller();
 void threads_setup();
+void calculaAlimentacao();
 void F_debug();
 void F_rtc();
 
@@ -58,7 +59,7 @@ void F_rtc();
 void threads_setup()
 {
     T_debug.onRun(F_debug);
-    T_debug.setInterval(1000);
+    T_debug.setInterval(2000);
     // T_debug.enabled = false;
 
     T_rtc.onRun(F_rtc);
@@ -72,10 +73,12 @@ void F_debug()
     Serial.print(hr_now);
     Serial.print(" min: ");
     Serial.print(min_now);
-    Serial.print(" hr_alime: ");
+    Serial.print("    hr_alime: ");
     Serial.print(hr_alimentacao);
     Serial.print(" min_alime: ");
     Serial.print(min_alimentacao);
+    Serial.print("  contador: ");
+    Serial.print(counter_alimentacao);
     Serial.println();
 }
 
@@ -84,6 +87,7 @@ void F_rtc()
     DateTime now = rtc.now();
     hr_now = now.hour();
     min_now = now.minute();
+    calculaAlimentacao();
 }
 
 // Calcula em qual hora e em qual minuto ocorrerá a próxima alimentacao
@@ -93,6 +97,11 @@ void calculaAlimentacao()
     int min_intervalo = counter_alimentacao * intervalo % 60;
     hr_alimentacao = hr_inicio + hr_intervalo;
     min_alimentacao = min_intervalo;
+
+    if(hr_alimentacao <= hr_now && min_alimentacao <= min_now)
+    {
+        counter_alimentacao++;
+    }
     // Serial.print(" hr_int: ");
     // Serial.print(hr_intervalo);
     // Serial.print(" min_int: ");

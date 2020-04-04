@@ -49,7 +49,6 @@ void loop()
     else
     {
       counter_alimentacao = 0;
-      calculaAlimentacao();
     }
     break;
   }
@@ -59,8 +58,8 @@ void loop()
     {
       digitalWrite(PIN_RELE, LOW);
       Serial.println("alimentou");
-      counter_alimentacao++; // quando terminar alimentacao
-      calculaAlimentacao();
+      // counter_alimentacao++; // quando terminar alimentacao
+      estado = SLEEP;
     }
     break;
   }
