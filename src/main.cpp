@@ -1,12 +1,41 @@
-#include <Arduino.h>
+#include "functions.h"
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println("328p ready.");
 
-#define PIN_BLINK LED_BUILTIN
+  pin_mode();
 
-void setup() {
-  pinMode(PIN_BLINK, OUTPUT);
+  threads_setup();
 }
 
-void loop() {
-  digitalWrite(PIN_BLINK,!digitalRead(PIN_BLINK));
-  delay(200);
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void loop()
+{
+
+  if (T_debug.shouldRun())
+    T_debug.run();
+
+  switch (estado)
+  {
+
+  case PRONTO:
+  {
+    //code
+    break;
+  }
+  case CICLO:
+  {
+    //code
+    break;
+  }
+  case EMERGENCIA:
+  {
+    //code
+    break;
+  }
+  }
 }

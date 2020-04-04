@@ -1,0 +1,6 @@
+[submodule "lib/personalHeader"]
+	path = lib/personalHeader
+	url = git@github.com:Atsunnytec/personalHeader.git
+[submodule "lib/Thread"]
+	path = lib/Thread
+	url = git@github.com:ivanseidel/ArduinoThread.git
