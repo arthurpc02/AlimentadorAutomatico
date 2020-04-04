@@ -27,16 +27,19 @@ enum Estado
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 unsigned int variavel = 16;
 
+int hr_now = 6;
+int min_now = 6;
+
 //parâmetros:
 int hr_inicio = 8;
 int hr_fim = 8;
 int intervalo = 120; // minutos
-int duracao = 10; // segundos
-
+int duracao = 10;    // segundos
 
 //////////////////////////////////////////////////////////////////////
 // Objetos:
 Thread T_debug = Thread();
+Thread T_rtc = Thread();
 RTC_DS3231 rtc;
 
 //////////////////////////////////////////////////////////////////////
@@ -45,6 +48,7 @@ void pin_mode();
 void threads_controller();
 void threads_setup();
 void F_debug();
+void F_rtc();
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -52,14 +56,41 @@ void F_debug();
 void threads_setup()
 {
     T_debug.onRun(F_debug);
-    T_debug.setInterval(1000);
-    T_debug.enabled = false;
+    T_debug.setInterval(200);
+    // T_debug.enabled = false;
+
+    T_rtc.onRun(F_rtc);
+    T_rtc.setInterval(50);
+    // T_rtc.enabled = false;
+}
+
+void F_rtc()
+{
+    DateTime now = rtc.now();
+    hr_now = now.hour();
+    min_now = now.minute();
+}
+
+void F_debug()
+{
+    Serial.print(" hr: ");
+    Serial.print(hr_now);
+    Serial.print(" min: ");
+    Serial.print(min_now);
+
+    Serial.println();
+}
+
+void pin_mode()
+{
+    pinMode(PIN_RELE, OUTPUT);
+    digitalWrite(PIN_RELE, LOW); //
 }
 
 void checkRTC()
 {
 
-    // If you need to set the time of the uncomment line 34 or 37
+    // If you need to set the time of the rtc uncomment line 34 or 37
     // following line sets the RTC to the date & time this sketch was compiled
     // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
     // This line sets the RTC with an explicit date & time, for example to set
@@ -67,6 +98,9 @@ void checkRTC()
     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
 
     DateTime now = rtc.now();
+
+    hr_now = now.hour();
+    min_now = now.minute();
 
     Serial.print(now.year(), DEC);
     Serial.print('/');
@@ -83,46 +117,10 @@ void checkRTC()
     Serial.print(now.second(), DEC);
     Serial.println();
 
-    // Serial.print(" since midnight 1/1/1970 = ");
-    // Serial.print(now.unixtime());
-    // Serial.print("s = ");
-    // Serial.print(now.unixtime() / 86400L);
-    // Serial.println("d");
-
-    // // calculate a date which is 7 days and 30 seconds into the future
-    // DateTime future (now + TimeSpan(7,12,30,6));
-
-    // Serial.print(" now + 7d + 30s: ");
-    // Serial.print(future.year(), DEC);
-    // Serial.print('/');
-    // Serial.print(future.month(), DEC);
-    // Serial.print('/');
-    // Serial.print(future.day(), DEC);
-    // Serial.print(' ');
-    // Serial.print(future.hour(), DEC);
-    // Serial.print(':');
-    // Serial.print(future.minute(), DEC);
-    // Serial.print(':');
-    // Serial.print(future.second(), DEC);
-    // Serial.println();
-
     Serial.print("Temperature: ");
     Serial.print(rtc.getTemperature());
     Serial.println(" C");
 
     Serial.println();
     delay(500);
-}
-void F_debug()
-{
-    Serial.print(" variavel: ");
-    Serial.print(variavel);
-
-    Serial.println();
-}
-
-void pin_mode()
-{
-    pinMode(PIN_RELE, OUTPUT);
-    digitalWrite(PIN_RELE, LOW); //
 }
