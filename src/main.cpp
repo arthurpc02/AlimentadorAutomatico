@@ -13,6 +13,17 @@ void setup()
       ;
   }
 
+  loadParametersFromEEPROM();
+  Serial.print(" hr_inicio: ");
+    Serial.print(hr_inicio);
+    Serial.print("    hr_fim: ");
+    Serial.print(hr_fim);
+    Serial.print(" intervalo: ");
+    Serial.print(intervalo);
+    Serial.print("  duracao: ");
+    Serial.print(duracao);
+    Serial.println();
+
   checkRTC();
   calculaAlimentacao();
 
@@ -31,6 +42,9 @@ void loop()
 
   if (T_rtc.shouldRun())
     T_rtc.run();
+
+  if (T_storeParameters.shouldRun())
+    T_storeParameters.run();
 
   switch (estado)
   {
@@ -68,7 +82,7 @@ void loop()
   }
   case ALIMENTACAO:
   {
-    if (millis() - timer_rele >= (duracao * 1000))
+    if (millis() - timer_rele >= ((unsigned int)duracao * 1000))
     {
       digitalWrite(PIN_RELE, LOW);
       Serial.println("alimentou");
