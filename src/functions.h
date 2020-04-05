@@ -3,6 +3,7 @@
 #include <personalHeader.h>
 #include <Thread.h>
 #include <RTClib.h>
+#include <ihmNativa.h>
 
 //////////////////////////////////////////////////////////////////
 // defines:
@@ -52,6 +53,7 @@ Thread T_inputs = Thread();
 Thread T_storeParameters = Thread();
 Thread T_rtc = Thread();
 RTC_DS3231 rtc;
+ihmNativa ihm;
 
 //////////////////////////////////////////////////////////////////////
 // prototypes:
@@ -102,45 +104,44 @@ void F_debug()
     Serial.println();
 }
 
+// Função de Leitura de botoes
 void F_inputs()
 {
-
-    // Função de Leitura de botoes
-    int botao_A0 = analogRead(0); // leitura do pino A0
-    // leitura  maior que 1000, significa que não foi apertado nenhum botão
+    int botoes = analogRead(PIN_BOTOES); // leitura do pino A0
 
     // leitura  menor que 50, botao RIGHT foi pressionado
-    if (botao_A0 < 50)
+    if (botoes < 50)
     {
         Serial.println("R: next");
         // ihm.changeMenu(NEXT);
     }
     // leitura é menor que 250, botao UP foi pressionado
-    else if (botao_A0 < 250)
+    else if (botoes < 250)
     {
         Serial.println("Up: add");
         // ihm.addVar(MAIS);
     }
 
     //  leitura é menor que 450, botao DOWN foi pressionado
-    else if (botao_A0 < 450)
+    else if (botoes < 450)
     {
         Serial.println("Down: sub");
         // ihm.addVar(MENOS);
     }
 
     //  leitura é menor que 650, botao LEFT foi pressionado
-    else if (botao_A0 < 650)
+    else if (botoes < 650)
     {
         Serial.println("Left: prev");
         //  ihm.changeMenu(PREVIOUS);
     }
 
     //  leitura é menor que 850, botao SELECT foi pressionado
-    else if (botao_A0 < 850)
+    else if (botoes < 850)
     {
         flag_teste = true;
     }
+    // leitura  maior que 1000, significa que não foi apertado nenhum botão
 }
 
 void F_rtc()
