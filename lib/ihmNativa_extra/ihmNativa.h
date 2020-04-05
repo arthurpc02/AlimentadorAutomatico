@@ -41,12 +41,13 @@ enum TipoMenu
     STATUS,
     MONITOR,
     READONLY,
+    CUSTOM,
 };
 
 class Menu
 {
 public:
-//constructor:
+    //constructor:
     Menu(String par_name = "def",
          TipoMenu par_tipo = READONLY,
          int *par_variavel = NULL,
@@ -54,7 +55,7 @@ public:
          int par_acrescimo = 1,
          int par_minimo = 0,
          int par_maximo = 9999,
-         int * par_produto = NULL)
+         int *par_produto = NULL)
     {
         name = par_name;
         tipo = par_tipo;
@@ -66,7 +67,15 @@ public:
         produto = par_produto;
     }
 
-    Menu(String par_name = "def", TipoMenu par_tipo = STATUS, String par_msg = " ", int * par_produto = NULL)
+    Menu(String par_name = "def", TipoMenu par_tipo = CUSTOM, String par_string1 = "1", String par_string2 = "2")
+    {
+        name = par_name;
+        tipo = par_tipo;
+        custom_string1 = par_string1;
+        custom_string2 = par_string2;
+    }
+
+    Menu(String par_name = "def", TipoMenu par_tipo = STATUS, String par_msg = " ", int *par_produto = NULL)
     {
         name = par_name;
         tipo = par_tipo;
@@ -127,7 +136,7 @@ public:
         menu4 = par_menu4;
     }
 
-    int * getProduto()
+    int *getProduto()
     {
         return produto;
     }
@@ -136,6 +145,9 @@ public:
     Menu *menu2 = NULL;
     Menu *menu3 = NULL;
     Menu *menu4 = NULL;
+
+    String custom_string1;
+    String custom_string2;
 
 private:
     String name = "def";
@@ -147,7 +159,8 @@ private:
     int minimo = 0;
     int maximo = 9999;
     String message = " ";
-    int * produto = NULL;
+    int *produto = NULL;
+    
 };
 
 class ihmNativa
@@ -232,8 +245,8 @@ public:
     {
         // if (currentMenu != &Menu_status)
         // {
-            status2 = msg;
-            flag_status2 = true;
+        status2 = msg;
+        flag_status2 = true;
         // }
     }
 
@@ -422,6 +435,15 @@ private:
         }
     }
 
+    void eventProcessor_custom()
+    {
+        if (flag_variavelMudou == true)
+        {
+            line1 = currentMenu->custom_string1;
+            line2 = currentMenu->custom_string2;
+        }
+    }
+
     void estruturaMenu_parametros()
     {
         // if (currentMenu->getProduto() == NULL)
@@ -478,13 +500,13 @@ private:
         // line2.concat(F(" "));
         // line2.concat(currentMenu->menu2->getUnidade());
 
-        line3 = currentMenu->menu3->getName();
-        line3.concat(F(": "));
-        line3.concat(*currentMenu->menu3->getVariavel());
-        // line3.concat(F(" "));
-        // line3.concat(currentMenu->menu3->getUnidade());
+        // line3 = currentMenu->menu3->getName();
+        // line3.concat(F(": "));
+        // line3.concat(*currentMenu->menu3->getVariavel());
+        // // line3.concat(F(" "));
+        // // line3.concat(currentMenu->menu3->getUnidade());
 
-        line4 = currentMenu->menu4->getMsg();
+        // line4 = currentMenu->menu4->getMsg();
     }
 
     void estruturaMenu_status()

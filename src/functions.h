@@ -63,9 +63,10 @@ ihmNativa ihm;
 
 Menu menu_hr_inicio = Menu("Hora Inicio", PARAMETRO, &hr_inicio, "hr", 1, 0, 23);
 Menu menu_hr_fim = Menu("Hora Fim", PARAMETRO, &hr_fim, "hr", 1, 0, 23);
-Menu menu_intervalo = Menu("Intervalo", PARAMETRO, &intervalo, "min", 5, 0, 1440);
+Menu menu_intervalo = Menu("Intervalo", PARAMETRO, &intervalo, "min", 2, 0, 1440);
 Menu menu_duracao = Menu("Duracao", PARAMETRO, &duracao, "seg", 1, 0, 300);
-// Menu menu_principal = Menu("Relogio", STATUS, "LINEAR", &produto);
+
+Menu menu_principal = Menu("Principal", CUSTOM, "Relógio: ", "Status:");
 
 //////////////////////////////////////////////////////////////////////
 // prototypes:
@@ -244,6 +245,10 @@ void calculaAlimentacao()
     int min_intervalo = contador_alimentacao * intervalo % 60;
     hr_alimentacao = hr_inicio + hr_intervalo;
     min_alimentacao = min_intervalo;
+
+    // int totalAlimentacao = hr_alimentacao * 60 + min_alimentacao;
+    // int totalNow = hr_now*60 + min_now;
+    // if(totalAlimentacao <= totalNow)
 
     if (hr_alimentacao <= hr_now && min_alimentacao <= min_now)
     {
