@@ -35,13 +35,12 @@ void setup()
 //////////////////////////////////////////////////////////////////////
 void loop()
 {
-
   if (T_debug.shouldRun())
     T_debug.run();
-
+  if (T_inputs.shouldRun())
+    T_inputs.run();
   if (T_rtc.shouldRun())
     T_rtc.run();
-
   if (T_storeParameters.shouldRun())
     T_storeParameters.run();
 

@@ -31,6 +31,7 @@ int min_now = 6;
 int hr_alimentacao = 17;
 int min_alimentacao = 40;
 int contador_alimentacao = 0;
+bool flag_teste = false;
 
 //parâmetros:
 int hr_inicio = 10;
@@ -47,6 +48,7 @@ const byte adr_duracao = adr_intervalo + sizeof(intervalo);
 //////////////////////////////////////////////////////////////////////
 // Objetos:
 Thread T_debug = Thread();
+Thread T_inputs = Thread();
 Thread T_storeParameters = Thread();
 Thread T_rtc = Thread();
 RTC_DS3231 rtc;
@@ -54,6 +56,7 @@ RTC_DS3231 rtc;
 //////////////////////////////////////////////////////////////////////
 // prototypes:
 void F_debug();
+void F_inputs();
 void F_storeParameters();
 void F_rtc();
 void pin_mode();
@@ -70,6 +73,10 @@ void threads_setup()
     T_debug.onRun(F_debug);
     T_debug.setInterval(60000);
     // T_debug.enabled = false;
+
+    T_inputs.onRun(F_inputs);
+    T_inputs.setInterval(100);
+    // T_inputs.enabled = false;
 
     T_storeParameters.onRun(F_storeParameters);
     T_storeParameters.setInterval(3000);
@@ -93,6 +100,47 @@ void F_debug()
     Serial.print("  contador: ");
     Serial.print(contador_alimentacao);
     Serial.println();
+}
+
+void F_inputs()
+{
+
+    // Função de Leitura de botoes
+    int botao_A0 = analogRead(0); // leitura do pino A0
+    // leitura  maior que 1000, significa que não foi apertado nenhum botão
+
+    // leitura  menor que 50, botao RIGHT foi pressionado
+    if (botao_A0 < 50)
+    {
+        Serial.println("R: next");
+        // ihm.changeMenu(NEXT);
+    }
+    // leitura é menor que 250, botao UP foi pressionado
+    else if (botao_A0 < 250)
+    {
+        Serial.println("Up: add");
+        // ihm.addVar(MAIS);
+    }
+
+    //  leitura é menor que 450, botao DOWN foi pressionado
+    else if (botao_A0 < 450)
+    {
+        Serial.println("Down: sub");
+        // ihm.addVar(MENOS);
+    }
+
+    //  leitura é menor que 650, botao LEFT foi pressionado
+    else if (botao_A0 < 650)
+    {
+        Serial.println("Left: prev");
+        //  ihm.changeMenu(PREVIOUS);
+    }
+
+    //  leitura é menor que 850, botao SELECT foi pressionado
+    else if (botao_A0 < 850)
+    {
+        flag_teste = true;
+    }
 }
 
 void F_rtc()
@@ -147,7 +195,9 @@ void calculaAlimentacao()
 void pin_mode()
 {
     pinMode(PIN_RELE, OUTPUT);
-    digitalWrite(PIN_RELE, LOW); //
+    digitalWrite(PIN_RELE, LOW); // inativo
+
+    pinMode(PIN_BOTOES, INPUT); // botoes do LCD
 }
 
 void checkRTC()
