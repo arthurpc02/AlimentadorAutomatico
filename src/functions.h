@@ -222,6 +222,18 @@ void F_rtc()
     DateTime now = rtc.now();
     hr_now = now.hour();
     min_now = now.minute();
+
+    static unsigned long timer_rtc = 0;
+
+    if(millis() - timer_rtc >= 1000)
+    {
+        String relogio = String(hr_now);
+        relogio.concat(":");
+        relogio.concat(String(min_now));
+        // Serial.print("relogio: "); Serial.println(relogio);
+        ihm.changeCustomString(&menu_principal, 1, relogio);
+        timer_rtc = millis();
+    }
     // calculaAlimentacao();
 }
 
