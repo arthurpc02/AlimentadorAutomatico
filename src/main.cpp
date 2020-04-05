@@ -13,28 +13,40 @@ void setup()
       ;
   }
 
-  // loadParametersFromEEPROM();
+  loadParametersFromEEPROM();
   Serial.print(" hr_inicio: ");
-    Serial.print(hr_inicio);
-    Serial.print("    hr_fim: ");
-    Serial.print(hr_fim);
-    Serial.print(" intervalo: ");
-    Serial.print(intervalo);
-    Serial.print("  duracao: ");
-    Serial.print(duracao);
-    Serial.println();
+  Serial.print(hr_inicio);
+  Serial.print("    hr_fim: ");
+  Serial.print(hr_fim);
+  Serial.print(" intervalo: ");
+  Serial.print(intervalo);
+  Serial.print("  duracao: ");
+  Serial.print(duracao);
+  Serial.println();
 
   checkRTC();
 
   pin_mode();
 
   threads_setup();
+
+  // ihm.configDefaultMsg(F("Engelfish")); // escolhe mensagem inicial do display
+  ihm.setup();                                   // inicia o display e imprime mensagem inicial
+
+  // ihm.addMenuToIndex(&menu_produto); // coloca os menus em ordem na ihm
+  // ihm.addMenuToIndex(&menu_Ximpressao);
+  // ihm.addMenuToIndex(&menu_Yimpressao);
+  // ihm.addMenuToIndex(&menu_movimento);
+
+  // ihm.focus(&menu_produto); // direciona a ihm para iniciar nesse menu
 }
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void loop()
 {
+  ihm.task();
+
   if (T_debug.shouldRun())
     T_debug.run();
   if (T_inputs.shouldRun())
