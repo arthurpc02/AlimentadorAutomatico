@@ -146,8 +146,30 @@ public:
     Menu *menu3 = NULL;
     Menu *menu4 = NULL;
 
-    String custom_string1;
-    String custom_string2;
+    String getCustomString(int par_line)
+    {
+        if (par_line == 1)
+        {
+            return custom_string1;
+        }
+        else if (par_line == 2)
+        {
+
+            return custom_string2;
+        }
+    }
+
+    void changeCustomString(int par_line, String par_msg)
+    {
+        if (par_line == 1)
+        {
+            custom_string1 = par_msg;
+        }
+        else if (par_line == 2)
+        {
+            custom_string2 = par_msg;
+        }
+    }
 
 private:
     String name = "def";
@@ -160,7 +182,8 @@ private:
     int maximo = 9999;
     String message = " ";
     int *produto = NULL;
-    
+    String custom_string1;
+    String custom_string2;
 };
 
 class ihmNativa
@@ -197,6 +220,12 @@ public:
     void signalVariableChange()
     {
         flag_variavelMudou = true;
+    }
+
+    void changeCustomString(Menu *par_menu, int par_line, String par_msg = " ")
+    {
+        signalVariableChange();
+        currentMenu->changeCustomString(par_line, par_msg);
     }
 
     // void updateStatusFocus(String message)
@@ -439,9 +468,21 @@ private:
     {
         if (flag_variavelMudou == true)
         {
-            line1 = currentMenu->custom_string1;
-            line2 = currentMenu->custom_string2;
+            estruturaMenu_custom();
+            display();
         }
+        else if (flag_menuChanged == true)
+        {
+            flag_menuChanged = false;
+            estruturaMenu_custom();
+            display();
+        }
+    }
+
+    void estruturaMenu_custom()
+    {
+        line1 = currentMenu->getCustomString(1);
+        line2 = currentMenu->getCustomString(2);
     }
 
     void estruturaMenu_parametros()
@@ -627,6 +668,11 @@ void ihmNativa::task()
     {
         // eventos_monitor();
         eventProcessor_monitor();
+        break;
+    }
+    case CUSTOM:
+    {
+        eventProcessor_custom();
         break;
     }
     }

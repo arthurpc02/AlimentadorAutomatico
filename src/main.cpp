@@ -37,8 +37,9 @@ void setup()
   ihm.addMenuToIndex(&menu_hr_fim);
   ihm.addMenuToIndex(&menu_intervalo);
   ihm.addMenuToIndex(&menu_duracao);
+  ihm.addMenuToIndex(&menu_principal);
 
-  // ihm.focus(&menu_hr_inicio);
+  ihm.focus(&menu_principal);
   // ihm.focus(&menu_produto); // direciona a ihm para iniciar nesse menu
 }
 
@@ -70,6 +71,8 @@ void loop()
       // Serial.print(" hr_fim");
       // Serial.print(hr_fim);
       // Serial.println();
+      ihm.focus(&menu_principal);
+      ihm.changeCustomString(&menu_principal, 2,"ATIVO");
       estado = ATIVO;
     }
     // else
@@ -90,11 +93,15 @@ void loop()
       Serial.print(" ");
       digitalWrite(PIN_RELE, HIGH);
       timer_rele = millis();
+      ihm.focus(&menu_principal);
+      ihm.changeCustomString(&menu_principal, 2,"ALIMENTANDO");
       estado = ALIMENTACAO;
     }
     else if (hr_now >= hr_fim)
     {
       estado = SLEEP;
+      ihm.focus(&menu_principal);
+      ihm.changeCustomString(&menu_principal, 2,"INATIVO");
       contador_alimentacao = 0;
     }
     break;
@@ -105,6 +112,8 @@ void loop()
     {
       digitalWrite(PIN_RELE, LOW);
       Serial.println("alimentou");
+      ihm.focus(&menu_principal);
+      ihm.changeCustomString(&menu_principal, 2,"ATIVO");
       // contador_alimentacao++; // quando terminar alimentacao
       estado = ATIVO;
     }

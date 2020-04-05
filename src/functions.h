@@ -39,6 +39,9 @@ int hr_alimentacao = 17;
 int min_alimentacao = 40;
 int contador_alimentacao = 0;
 bool flag_teste = false;
+String msg_ativo = "ATIVO";
+String msg_inativo = "INATIVO";
+String msg_alimentando = "ALIMENTANDO";
 
 //parâmetros:
 int hr_inicio = 10;
@@ -66,7 +69,7 @@ Menu menu_hr_fim = Menu("Hora Fim", PARAMETRO, &hr_fim, "hr", 1, 0, 23);
 Menu menu_intervalo = Menu("Intervalo", PARAMETRO, &intervalo, "min", 2, 0, 1440);
 Menu menu_duracao = Menu("Duracao", PARAMETRO, &duracao, "seg", 1, 0, 300);
 
-Menu menu_principal = Menu("Principal", CUSTOM, "Relógio: ", "Status:");
+Menu menu_principal = Menu("Principal", CUSTOM, "Relogio: ", "Status");
 
 //////////////////////////////////////////////////////////////////////
 // prototypes:
