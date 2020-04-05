@@ -13,7 +13,7 @@ void setup()
       ;
   }
 
-  loadParametersFromEEPROM();
+  // loadParametersFromEEPROM();
   Serial.print(" hr_inicio: ");
     Serial.print(hr_inicio);
     Serial.print("    hr_fim: ");
@@ -25,7 +25,6 @@ void setup()
     Serial.println();
 
   checkRTC();
-  calculaAlimentacao();
 
   pin_mode();
 
@@ -52,6 +51,13 @@ void loop()
   {
     if (hr_now >= hr_inicio && hr_now < hr_fim)
     {
+      // Serial.println("hr_now");
+      // Serial.print(hr_now);
+      // Serial.print(" hr_inicio");
+      // Serial.print(hr_inicio);
+      // Serial.print(" hr_fim");
+      // Serial.print(hr_fim);
+      // Serial.println();
       estado = ATIVO;
     }
     // else
@@ -62,6 +68,7 @@ void loop()
   }
   case ATIVO:
   {
+    calculaAlimentacao();
     if (hr_now == hr_alimentacao && min_now == min_alimentacao)
     {
       Serial.println("boia: ");

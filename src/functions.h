@@ -20,12 +20,11 @@ enum Estado
     SLEEP,       // estado SLEEP: Não está no horario de alimentação (entre 'hr_inicio' e 'hr_fim')
     ATIVO,       // estado ATVIO: Está no horario de alimentação (entre 'hr_inicio' e 'hr_fim')
     ALIMENTACAO, // estado ALIMENTACAO: realizando alimentação, ou seja, acionando o relé pelo tempo determinado pelo parâmetro 'duracao'
-} estado;
+};
+Estado estado = SLEEP;
 
 //////////////////////////////////////////////////////////////////////
 // variáveis:
-
-
 unsigned long timer_rele = 0;
 int hr_now = 6;
 int min_now = 6;
@@ -34,8 +33,8 @@ int min_alimentacao = 40;
 int contador_alimentacao = 0;
 
 //parâmetros:
-int hr_inicio = 8;
-int hr_fim = 9;
+int hr_inicio = 10;
+int hr_fim = 11;
 int intervalo = 5; // minutos
 int duracao = 15;  // segundos
 
@@ -87,10 +86,10 @@ void F_debug()
     // Serial.print(hr_now);
     // Serial.print(" min: ");
     // Serial.print(min_now);
-    // Serial.print("    hr_alime: ");
-    // Serial.print(hr_alimentacao);
-    // Serial.print(" min_alime: ");
-    // Serial.print(min_alimentacao);
+    Serial.print("    hr_alime: ");
+    Serial.print(hr_alimentacao);
+    Serial.print(" min_alime: ");
+    Serial.print(min_alimentacao);
     Serial.print("  contador: ");
     Serial.print(contador_alimentacao);
     Serial.println();
@@ -101,7 +100,7 @@ void F_rtc()
     DateTime now = rtc.now();
     hr_now = now.hour();
     min_now = now.minute();
-    calculaAlimentacao();
+    // calculaAlimentacao();
 }
 
 void F_storeParameters()
@@ -118,7 +117,6 @@ void loadParametersFromEEPROM()
     EEPROM.get(adr_fim, hr_fim);
     EEPROM.get(adr_intervalo, intervalo);
     EEPROM.get(adr_duracao, duracao);
-    
 }
 
 // Calcula em qual hora e em qual minuto ocorrerá a próxima alimentacao
@@ -141,6 +139,8 @@ void calculaAlimentacao()
     // Serial.print(hr_alimentacao);
     // Serial.print(" min_alime: ");
     // Serial.print(min_alimentacao);
+    // Serial.print("  contador: ");
+    // Serial.print(contador_alimentacao);
     // Serial.println();
 }
 
