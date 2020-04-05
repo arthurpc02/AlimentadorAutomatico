@@ -17,8 +17,9 @@
 // enums e structs:
 enum Estado
 {
-    SLEEP, // estado SLEEP: Não está no horario de alimentação (entre 'hr_inicio' e 'hr_fim', e no intervalo certo)
-    ATIVO, // estado ATVIO: realizando alimentação, ou seja, acionando o relé pelo tempo determinado pelo parâmetro 'duracao'
+    SLEEP,       // estado SLEEP: Não está no horario de alimentação (entre 'hr_inicio' e 'hr_fim', e no intervalo certo)
+    ATIVO,       // estado ATVIO: realizando alimentação, ou seja, acionando o relé pelo tempo determinado pelo parâmetro 'duracao'
+    ALIMENTACAO, //
 } estado;
 
 //////////////////////////////////////////////////////////////////////
@@ -30,13 +31,13 @@ int hr_now = 6;
 int min_now = 6;
 int hr_alimentacao = 17;
 int min_alimentacao = 40;
-int counter_alimentacao = 0;
+int contador_alimentacao = 0;
 
 //parâmetros:
-int hr_inicio = 17;
-int hr_fim = 18;
-int intervalo = 20; // minutos
-int duracao = 10;  // segundos
+int hr_inicio = 21;
+int hr_fim = 22;
+int intervalo = 5; // minutos
+int duracao = 10;   // segundos
 
 //////////////////////////////////////////////////////////////////////
 // Objetos:
@@ -60,7 +61,7 @@ void threads_setup()
 {
     T_debug.onRun(F_debug);
     T_debug.setInterval(2000);
-    // T_debug.enabled = false;
+    T_debug.enabled = false;
 
     T_rtc.onRun(F_rtc);
     T_rtc.setInterval(50);
@@ -78,7 +79,7 @@ void F_debug()
     Serial.print(" min_alime: ");
     Serial.print(min_alimentacao);
     Serial.print("  contador: ");
-    Serial.print(counter_alimentacao);
+    Serial.print(contador_alimentacao);
     Serial.println();
 }
 
@@ -93,14 +94,14 @@ void F_rtc()
 // Calcula em qual hora e em qual minuto ocorrerá a próxima alimentacao
 void calculaAlimentacao()
 {
-    int hr_intervalo = counter_alimentacao * intervalo / 60;
-    int min_intervalo = counter_alimentacao * intervalo % 60;
+    int hr_intervalo = contador_alimentacao * intervalo / 60;
+    int min_intervalo = contador_alimentacao * intervalo % 60;
     hr_alimentacao = hr_inicio + hr_intervalo;
     min_alimentacao = min_intervalo;
 
-    if(hr_alimentacao <= hr_now && min_alimentacao <= min_now)
+    if (hr_alimentacao <= hr_now && min_alimentacao <= min_now)
     {
-        counter_alimentacao++;
+        contador_alimentacao++;
     }
     // Serial.print(" hr_int: ");
     // Serial.print(hr_intervalo);
