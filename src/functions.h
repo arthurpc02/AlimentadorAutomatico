@@ -246,11 +246,9 @@ void calculaAlimentacao()
     hr_alimentacao = hr_inicio + hr_intervalo;
     min_alimentacao = min_intervalo;
 
-    // int totalAlimentacao = hr_alimentacao * 60 + min_alimentacao;
-    // int totalNow = hr_now*60 + min_now;
-    // if(totalAlimentacao <= totalNow)
-
-    if (hr_alimentacao <= hr_now && min_alimentacao <= min_now)
+    int totalAlimentacao = hr_alimentacao * 60 + min_alimentacao;
+    int totalNow = hr_now * 60 + min_now;
+    if (totalAlimentacao <= totalNow)
     {
         contador_alimentacao++;
     }
