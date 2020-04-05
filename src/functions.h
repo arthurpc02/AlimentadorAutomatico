@@ -11,6 +11,12 @@
 //inputs:
 #define PIN_BOTOES A0
 
+#define PIN_DIREITA 3
+#define PIN_ESQUERDA 4
+#define PIN_CIMA 5
+#define PIN_BAIXO 6
+#define PIN_SELECT 7
+
 //outputs:
 #define PIN_RELE 11
 
@@ -59,6 +65,7 @@ ihmNativa ihm;
 // prototypes:
 void F_debug();
 void F_inputs();
+void F_inputsTemp();
 void F_storeParameters();
 void F_rtc();
 void pin_mode();
@@ -118,7 +125,7 @@ void botaoDireita()
 void botaoEsquerda()
 {
     Serial.println("Left: prev");
-     ihm.changeMenu(PREVIOUS);
+    ihm.changeMenu(PREVIOUS);
 }
 
 void botaoCima()
@@ -135,13 +142,33 @@ void botaoBaixo()
 
 void botaoSelect()
 {
+    Serial.println("b_select");
     flag_teste = true;
 }
 
 // Função de Leitura de botoes usando entradas digitais, apenas para teste
 void F_inputsTemp()
 {
-    // if(digitalRead())
+    if (digitalRead(PIN_DIREITA) == LOW)
+    {
+        botaoDireita();
+    }
+    else if (digitalRead(PIN_ESQUERDA) == LOW)
+    {
+        botaoEsquerda();
+    }
+    else if (digitalRead(PIN_CIMA) == LOW)
+    {
+        botaoCima();
+    }
+    else if (digitalRead(PIN_BAIXO) == LOW)
+    {
+        botaoBaixo();
+    }
+    else if (digitalRead(PIN_SELECT) == LOW)
+    {
+        botaoSelect();
+    }
 }
 
 // Função de Leitura de botoes usando entrada analógica
@@ -235,6 +262,12 @@ void pin_mode()
     digitalWrite(PIN_RELE, LOW); // inativo
 
     pinMode(PIN_BOTOES, INPUT); // botoes do LCD
+
+    pinMode(PIN_DIREITA, INPUT_PULLUP);
+    pinMode(PIN_ESQUERDA, INPUT_PULLUP);
+    pinMode(PIN_CIMA, INPUT_PULLUP);
+    pinMode(PIN_BAIXO, INPUT_PULLUP);
+    pinMode(PIN_SELECT, INPUT_PULLUP);
 }
 
 void checkRTC()
