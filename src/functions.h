@@ -66,6 +66,11 @@ void threads_controller();
 void threads_setup();
 void calculaAlimentacao();
 void loadParametersFromEEPROM();
+void botaoDireita();
+void botaoEsquerda();
+void botaoCima();
+void botaoBaixo();
+void botaoSelect();
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -76,8 +81,8 @@ void threads_setup()
     T_debug.setInterval(60000);
     // T_debug.enabled = false;
 
-    T_inputs.onRun(F_inputs);
-    T_inputs.setInterval(100);
+    T_inputs.onRun(F_inputsTemp);
+    T_inputs.setInterval(300);
     // T_inputs.enabled = false;
 
     T_storeParameters.onRun(F_storeParameters);
@@ -104,7 +109,42 @@ void F_debug()
     Serial.println();
 }
 
-// Função de Leitura de botoes
+void botaoDireita()
+{
+    Serial.println("R: next");
+    ihm.changeMenu(NEXT);
+}
+
+void botaoEsquerda()
+{
+    Serial.println("Left: prev");
+     ihm.changeMenu(PREVIOUS);
+}
+
+void botaoCima()
+{
+    Serial.println("Up: add");
+    ihm.addVar(MAIS);
+}
+
+void botaoBaixo()
+{
+    Serial.println("Down: sub");
+    ihm.addVar(MENOS);
+}
+
+void botaoSelect()
+{
+    flag_teste = true;
+}
+
+// Função de Leitura de botoes usando entradas digitais, apenas para teste
+void F_inputsTemp()
+{
+    // if(digitalRead())
+}
+
+// Função de Leitura de botoes usando entrada analógica
 void F_inputs()
 {
     int botoes = analogRead(PIN_BOTOES); // leitura do pino A0
@@ -112,34 +152,30 @@ void F_inputs()
     // leitura  menor que 50, botao RIGHT foi pressionado
     if (botoes < 50)
     {
-        Serial.println("R: next");
-        // ihm.changeMenu(NEXT);
+        botaoDireita();
     }
     // leitura é menor que 250, botao UP foi pressionado
     else if (botoes < 250)
     {
-        Serial.println("Up: add");
-        // ihm.addVar(MAIS);
+        botaoCima();
     }
 
     //  leitura é menor que 450, botao DOWN foi pressionado
     else if (botoes < 450)
     {
-        Serial.println("Down: sub");
-        // ihm.addVar(MENOS);
+        botaoBaixo();
     }
 
     //  leitura é menor que 650, botao LEFT foi pressionado
     else if (botoes < 650)
     {
-        Serial.println("Left: prev");
-        //  ihm.changeMenu(PREVIOUS);
+        botaoEsquerda();
     }
 
     //  leitura é menor que 850, botao SELECT foi pressionado
     else if (botoes < 850)
     {
-        flag_teste = true;
+        botaoSelect();
     }
     // leitura  maior que 1000, significa que não foi apertado nenhum botão
 }
