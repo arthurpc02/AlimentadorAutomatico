@@ -61,6 +61,12 @@ Thread T_rtc = Thread();
 RTC_DS3231 rtc;
 ihmNativa ihm;
 
+Menu menu_hr_inicio = Menu("Hora Inicio", PARAMETRO, &hr_inicio, "hr", 1, 0, 23);
+Menu menu_hr_fim = Menu("Hora Fim", PARAMETRO, &hr_fim, "hr", 1, 0, 23);
+Menu menu_intervalo = Menu("Intervalo", PARAMETRO, &intervalo, "min", 5, 0, 1440);
+Menu menu_duracao = Menu("Duracao", PARAMETRO, &duracao, "seg", 1, 0, 300);
+// Menu menu_principal = Menu("Relogio", STATUS, "LINEAR", &produto);
+
 //////////////////////////////////////////////////////////////////////
 // prototypes:
 void F_debug();

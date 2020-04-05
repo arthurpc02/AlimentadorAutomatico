@@ -33,11 +33,12 @@ void setup()
   // ihm.configDefaultMsg(F("Engelfish")); // escolhe mensagem inicial do display
   ihm.setup();                                   // inicia o display e imprime mensagem inicial
   delay(2000);
-  // ihm.addMenuToIndex(&menu_produto); // coloca os menus em ordem na ihm
-  // ihm.addMenuToIndex(&menu_Ximpressao);
-  // ihm.addMenuToIndex(&menu_Yimpressao);
-  // ihm.addMenuToIndex(&menu_movimento);
+  ihm.addMenuToIndex(&menu_hr_inicio); // coloca os menus em ordem na ihm
+  ihm.addMenuToIndex(&menu_hr_fim);
+  ihm.addMenuToIndex(&menu_intervalo);
+  ihm.addMenuToIndex(&menu_duracao);
 
+  // ihm.focus(&menu_hr_inicio);
   // ihm.focus(&menu_produto); // direciona a ihm para iniciar nesse menu
 }
 

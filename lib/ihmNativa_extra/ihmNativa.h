@@ -319,9 +319,9 @@ private:
             if (flag_variavelMudou == true)
             {
                 flag_variavelMudou = false;
-                line3 = String(*currentMenu->getVariavel());
-                line3.concat(F(" "));
-                line3.concat(currentMenu->getUnidade());
+                line2 = String(*currentMenu->getVariavel());
+                line2.concat(F(" "));
+                line2.concat(currentMenu->getUnidade());
                 display();
             }
             else if (flag_menuChanged == true)
@@ -424,18 +424,18 @@ private:
 
     void estruturaMenu_parametros()
     {
-        if (currentMenu->getProduto() == NULL)
-        {
-            line1 = F("--------------------");
-        }
-        else
-        {
-            line1 = F("Produto: ");
-            line1.concat((String)*currentMenu->getProduto());
-        }
+        // if (currentMenu->getProduto() == NULL)
+        // {
+        //     line1 = F("--------------------");
+        // }
+        // else
+        // {
+        //     line1 = F("Produto: ");
+        //     line1.concat((String)*currentMenu->getProduto());
+        // }
 
-        line2 = currentMenu->getName();
-        line2.concat(F(": "));
+        line1 = currentMenu->getName();
+        line1.concat(F(": "));
 
         line3 = String(*currentMenu->getVariavel());
         line3.concat(F(" "));
