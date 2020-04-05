@@ -32,7 +32,7 @@ void setup()
 
   // ihm.configDefaultMsg(F("Engelfish")); // escolhe mensagem inicial do display
   ihm.setup();                                   // inicia o display e imprime mensagem inicial
-
+  delay(2000);
   // ihm.addMenuToIndex(&menu_produto); // coloca os menus em ordem na ihm
   // ihm.addMenuToIndex(&menu_Ximpressao);
   // ihm.addMenuToIndex(&menu_Yimpressao);

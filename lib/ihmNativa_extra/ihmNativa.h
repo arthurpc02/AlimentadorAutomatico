@@ -527,24 +527,24 @@ private:
 
             oldLine2 = line2;
         }
-        if (line3 != oldLine3)
-        {
-            lcd.setCursor(0, 2);
-            lcd.print(F("                    "));
-            lcd.setCursor(0, 2);
-            lcd.print(line3);
+        // if (line3 != oldLine3)
+        // {
+        //     lcd.setCursor(0, 2);
+        //     lcd.print(F("                    "));
+        //     lcd.setCursor(0, 2);
+        //     lcd.print(line3);
 
-            oldLine3 = line3;
-        }
-        if (line4 != oldLine4)
-        {
-            lcd.setCursor(0, 3);
-            lcd.print(F("                    "));
-            lcd.setCursor(0, 3);
-            lcd.print(line4);
+        //     oldLine3 = line3;
+        // }
+        // if (line4 != oldLine4)
+        // {
+        //     lcd.setCursor(0, 3);
+        //     lcd.print(F("                    "));
+        //     lcd.setCursor(0, 3);
+        //     lcd.print(line4);
 
-            oldLine4 = line4;
-        }
+        //     oldLine4 = line4;
+        // }
         if (setas > 0)
         {
             lcd.setCursor(0, setas - 1);
@@ -557,8 +557,8 @@ private:
 
     void displayDefaultMsg()
     {
-        line1 = F(" SUNNYTEC AUTOMACAO");
-        line2 = F("    34 3226-2095");
+        line1 = F("   EngelFish");
+        line2 = F("  Alimentador");
         line3 = F("     ");
         line4 = default_msg;
         display();
