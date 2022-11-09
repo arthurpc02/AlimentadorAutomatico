@@ -1,2 +1,2 @@
 # AlimentadorAutomatico
-Projeto solo: Alimentador automático para peixes. Firmware para Arduino.
+Alimentador automático para peixes. Firmware para Arduino.
